@@ -91,15 +91,7 @@ const s = (p5_inst) => {
 
     function drawCursor() {
         let p = p5_inst.createVector(p5_inst.mouseX, p5_inst.mouseY)
-        if (filter_plane.isInsidePlane(p)) {
-            const { index: found } = filter_plane.therePoint(p)
-            if (p5_inst.mouseIsPressed) p5_inst.cursor('grabbing')
-            else if (found != -1) {
-                p5_inst.cursor('pointer')
-            } else {
-                p5_inst.cursor()
-            }
-        }
+       
     }
 
     function drawPoints() {

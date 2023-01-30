@@ -35,9 +35,12 @@
 				<div id="filter-phase-response" class="response-plotting"> </div>
 
 		</div>
-        <div class="box" id="filter-response">
-            
+        <div class="box" id="pad">
+            <canvas id="mousepad" height="300" width="300"></canvas>
+            <div class="box" id="live-input"></div>
+            <div class="box" id="live-output"></div>   
         </div>
+        
 	</section>
 	<br />
 	<section id="all-pass">
@@ -90,9 +93,7 @@
 			<p id="slider-value"></p>
 
 		</div>
-        <div class="box" id="real-time-filter-container">
-            <canvas id="gameCanvas" height="300" width="300" style="color: black !important;"></canvas>
-        </div>
+        
 		<div class="box" id="real-time-filter-plots">
 			<div class="half-plot-container" id="all-pass-response-container">
 				<h4 class="title" id="original-signal-title">Original Signal</h4>
