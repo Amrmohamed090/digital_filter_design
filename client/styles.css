@@ -2,7 +2,10 @@ html{
     background-color: #212529;
     font-family: "Open Sans";
     overflow-x: hidden;
+    color: #ededee;
 }
+
+/* all pass */
 .dropdown-check-list {
     display: inline-block;
 }
@@ -56,98 +59,24 @@ html{
     display: block;
 }
 
-#filter-design, #all-pass, #real-time-filter{
-    display: flex;
-    flex-direction: row;
-    column-gap: 10px;
-}
+
  #all-pass, #real-time-filter{
     flex-direction: column;
     gap: 10px;
  }
 
-#filter-mag-response, #filter-phase-response{
-    width: 100%;
-    height: 100%;
-}
-
-.box {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background-color: #2a2e32;
-    border-radius: 8px;
-    padding: 20px;
-}
-
-#filter-response, #all-pass-response, #real-time-filter-plots, #real-time-filter-plots{
-    min-width: 60%;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    gap: 10px;
-}
-
-#final-filter-response{
-    min-width: 50%;
-}
-
 #all-pass-response, #real-time-filter-plots{
     flex-direction: row;
 }
-#circle-control{
-    gap: 5px;
-    margin-top: 10px;
-}
 
-#circle-control, #circle-canvas, #all-pass-unit-circle, #real-time-filter-container{
-    display: flex;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: center;
-    gap: 5;
-}
 #all-pass-unit-circle, #real-time-filter-container{
     gap: 10px;
 }
 
-.btn-cricle-control:hover{
-    color: #febc2c;
-    cursor: pointer;
-}
-
-#circle-title, #all-pass-title{
-    text-align: center;
-    color: #ededee;
-}
-
-.freq-response-title, .title{
-    margin: 0;
-    color: #ededee;
-}
-
-.btn{
-    background-color: #212529;
-    color: #ededee;
-    font-size: small;
-    border: #212529;
-    border-radius: 4px;
-    padding: 5px;
-}
 
 #new-all-pass-coef{
     padding: 10px;
     font-weight: 600;
-}
-
-#csv-submitter, #stop-filtering{
-    padding: 8px;
-    font-weight: 600;
-}
-
-.btn:hover{
-    color: #febc2c;
-    cursor: pointer;
 }
 
 #new-value{
@@ -170,7 +99,12 @@ html{
     margin-bottom: 10px;
 }
 
-#real-time-filter-plots h4{
+/* #csv-submitter, #stop-filtering{
+    padding: 8px;
+    font-weight: 600;
+} */
+
+/* #real-time-filter-plots h4{
     text-align: center;
     margin-bottom: 5px;
 }
@@ -179,18 +113,104 @@ html{
     margin-top: 3px;
     font-weight: bold;
     color: #0060df;
+} */
+
+
+/* boxes of graphes */
+#filter-response, #all-pass-response ,#real-time-filter-plots{
+    min-width: 40%;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 10px;
+}
+#pad{
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 10px;
 }
 
+/* plot graphs */
 .response-plotting{
-    min-height:40vh;
+    height: 40%;
+    width:100%;
+    margin: 5px;
 }
 
+
+
+/* buttons */
+.btn{
+    background-color: #212529;
+    color: #ededee;
+    font-size: small;
+    border: #212529;
+    border-radius: 4px;
+    padding: 5px;
+}
+.btn:hover{
+    color: #febc2c;
+    cursor: pointer;
+}
+
+/* pad */
+#mousepad{
+    background-color: #cccccc;
+    border: solid black 5px;
+    border-radius: 20px;
+    width: 90%;
+    height: 30%;
+}
+
+/* plot title */
+.freq-response-title, .title{
+    margin: 0;
+}
+
+/* Boxes */
+.box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #2a2e32;
+    border-radius: 8px;
+    padding:10px;
+    margin: 5px;
+    width: 30%;
+}
+
+/* titles */
+#circle-title, #all-pass-title{
+    text-align: center;
+}
+
+/* cicle */
 #zero{
     color: #febc2c;
 }
-#mousepad{
-    background-color: gray;
-    position: relative;
-   
-
+.btn-cricle-control:hover{
+    color: #febc2c;
+    cursor: pointer;
 }
+
+#circle-control{
+    gap: 5px;
+    margin-top: 10px;
+}
+
+#circle-control, #circle-canvas, #all-pass-unit-circle, #real-time-filter-container{
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    gap: 5;
+}
+
+/* sections */
+#filter-design, #all-pass, #real-time-filter{
+    display: flex;
+    flex-direction: row;
+    column-gap: 9px;
+    width: 100%; 
+}
+

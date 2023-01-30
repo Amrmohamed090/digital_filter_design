@@ -31,14 +31,16 @@
 		<div class="box" id="filter-response">
 			<h4 class="freq-response-title title">Magnitude Response</h4>
 			<div id="filter-mag-response" class="response-plotting"> </div>
-			<h4 class="freq-response-title title">Phase Response</h2>
-				<div id="filter-phase-response" class="response-plotting"> </div>
+			<h4 class="freq-response-title title">Phase Response</h4>
+			<div id="filter-phase-response" class="response-plotting"> </div>
 
 		</div>
         <div class="box" id="pad">
-            <canvas id="mousepad" height="300" width="300"></canvas>
-            <div class="box" id="live-input"></div>
-            <div class="box" id="live-output"></div>   
+            <canvas id="mousepad"></canvas>
+			<h4 class="freq-response-title title">Input Signal</h4>
+            <div  id="live-input" class="response-plotting"></div>
+			<h4 class="freq-response-title title">Output Signal</h4>
+            <div  id="live-output"class="response-plotting"></div>   
         </div>
         
 	</section>
@@ -74,7 +76,8 @@
 			</div>
 		</div>
 	</section>
-	<br />
+	
+	<!-- <br />
 	<section id="real-time-filter">
         
 		<div class="box" id="real-time-filter-container">
@@ -105,7 +108,7 @@
 			</div>
 		</div>
         
-	</section>
+	</section> -->
 
 
 	<script src="index.js"></script>
