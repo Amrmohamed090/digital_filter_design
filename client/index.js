@@ -8,6 +8,7 @@ const pole_mode_btn = document.getElementById("pole")
 
 const modes_btns = [zero_mode_btn, pole_mode_btn]
 
+document.getElementById("mouse-pad-mode").click();
 
 document.querySelector('#listOfA').addEventListener('input', updateAllPassCoeff)
 document.querySelector('#new-all-pass-coef').addEventListener('click', addNewA)
@@ -129,3 +130,24 @@ function changeMode(e){
         btn.style.color = (btn !== e.target) ? "#fff" : "#febc2c";
     }
 }
+
+function openMode(evt, cityName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+  
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+  
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+  
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }

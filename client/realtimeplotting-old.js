@@ -4,7 +4,6 @@ const submit_btn = document.getElementById('csv-submitter')
 const stop_btn = document.getElementById('stop-filtering')
 const csvFile = document.getElementById('csvFile')
 const button = document.getElementById('sent_zeros_poles')
-const hover_radio_but = document.getElementById('hover')
 const csv_radio_but = document.getElementById('csv')
 let slider = document.getElementById("myRange");
 let output = document.getElementById("slider-value");
@@ -14,8 +13,6 @@ let plotting_interval
 output.innerHTML = slider.value;
 let speed = Math.floor(1000/slider.value);
 
-
-var plt1 = Plotly.
 
 slider.oninput = function() {
     output.innerHTML = this.value;
@@ -102,55 +99,6 @@ function filter(a, b, n, x, y) {
 
     return y_n
 }
-/*start b3bsa*/
-hover_radio_but.addEventListener('change', async function(e){
-    
-    const {zeros, poles} = filter_plane.getZerosPoles(radius)
-    
-    if (zeros.length === 0 && poles.length === 0) {
-        notyf.error('No filter designed');
-        return
-    }
-    const [a, b] = await get_differenceEquationCoefficients(zeros, poles)
-    console.log([a, b])
-    
-    /*
-
-    let x = signal_x[0], y = signal_y[0]
-    let dx = signal_x[2] - signal_x[1]
-    let y_filtterd = signal_y.slice(0, a.length)
-    console.log(y_filtterd)
-
-    var data = [
-        {
-            x: [x],
-            y: [y],
-            mode: 'lines',
-            line: { color: '#febc2c' },
-        },
-    ]
-    var layout = {
-        yaxis: { range: [-1, 2.5] },
-        plot_bgcolor: "#111111",
-        paper_bgcolor: "#111111"
-    }
-
-    var filtter_data = [
-        {
-            x: [x],
-            y: [y_filtterd[0]],
-            mode: 'lines',
-            line: { color: '#fd413c' },
-        },
-    ]
-
-    updateBtnsState((plotting = true))
-    Plotly.newPlot('original-signal', data, layout)
-    Plotly.newPlot('filtered-signal', filtter_data, layout)
-    realTimePlotting(y_filtterd, dx, a, b)
-    */
-})
-/*end b3bsa*/
 
 submit_btn.addEventListener('click', async function (e) {
     e.preventDefault()
@@ -263,20 +211,3 @@ function updateBtnsState(plotting){
 
 updateBtnsState((plotting = false))
 
-/*start b3bsa*/
-var canvas = document.getElementById("gameCanvas");
-canvas.addEventListener("mousemove", function (evt) {
-    var mousePos = getMousePos(canvas, evt);
-    
-    console.log(mousePos.x + ',' + mousePos.y)
-}, false);
-
-//Get Mouse Position
-function getMousePos(canvas, evt) {
-    var rect = canvas.getBoundingClientRect();
-    return {
-        x: evt.clientX - rect.left,
-        y: evt.clientY - rect.top
-    };
-}
-/*end b3bsa*/

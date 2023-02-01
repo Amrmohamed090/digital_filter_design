@@ -1,13 +1,39 @@
 /*start b3bsa*/
 live_input_container = document.getElementById("live-input")
 live_output_container = document.getElementById("live-output")
+const submit_btn = document.getElementById('csv-submitter')
 var input_arr_y= new Array(200).fill(0);
 var input_arr_x= Array.from(Array(200).keys())
 var output_arr_y=new Array(200).fill(0);
+const csvFile = document.getElementById('csvFile')
+var signal_x_csv, signal_y_csv
+var pause_location = 0
+var pause_bool = false
+var pause_button = document.getElementById("Pause")
+var restart_button = document.getElementById("Restart")
+var live_input_x = Array.from(Array(200).keys())
+var live_input_y = new Array(200).fill(0); //X
+var live_output_y = new Array(200).fill(0); //Y
+
 
 //=> [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 
+pause_button.addEventListener("click", function (evt){
+    pause_bool = !pause_bool
+    if (pause_bool == false){
+        drawCsv()
+    }
+})
+restart_button.addEventListener("click", function (evt){
+    pause_bool = false
+    pause_location = 0
+    live_input_x = Array.from(Array(200).keys())
+    live_input_y = new Array(200).fill(0)
+    live_output_y = new Array(200).fill(0);
+    drawCsv()
+    
+})
 
 function plotlyMultiLinePlot(container, data){
     return Plotly.newPlot(
@@ -33,7 +59,7 @@ function plotlyMultiLinePlot(container, data){
 var canvas = document.getElementById("mousepad");
 canvas.addEventListener("mousemove", async function (evt) {
     var mousePos = getMousePos(canvas, evt);
-    input_arr_y.push(-mousePos.y+canvas.height)
+    input_arr_y.push((-mousePos.y+canvas.height)/2)
 
     if(input_arr_y.length > 200){
         input_arr_y.shift()
@@ -42,15 +68,12 @@ canvas.addEventListener("mousemove", async function (evt) {
     
     plotlyMultiLinePlot(live_input_container, [{x: input_arr_x, y: input_arr_y}])
     const {zeros, poles} = filter_plane.getZerosPoles(radius)
-    console.log({zeros, poles})
-  
     const [a, b] = await get_differenceEquationCoefficients(zeros, poles)
     
     var ya = output_arr_y.slice(-a.length+1);
     ya = ya.reverse()
     var xb = input_arr_y.slice(-b.length+1);
     xb = xb.reverse()
-    console.log({a,b})
     //summision
     var new_value = 0
     for (let i=0; i<ya.length; i++){
@@ -99,3 +122,85 @@ async function get_differenceEquationCoefficients(zeros, poles) {
 
 
 
+/////////////////
+function getCol(matrix, col) {
+    var column = []
+    for (var i = 0; i < matrix.length; i++) {
+        column.push(matrix[i][col])
+    }
+    return column
+}
+csvFile.addEventListener('change', () => {
+    pause_bool = false
+    readData()
+})
+
+async function readData() {
+    live_input_x = Array.from(Array(200).keys())
+    live_input_y = new Array(200).fill(0); //X
+    live_output_y = new Array(200).fill(0); //Y
+    const input = csvFile.files[0]
+    const df = await dfd.read_csv(input)
+    signal_x_csv = getCol(df.values, 0)
+
+    signal_y_csv = getCol(df.values, 1)
+    drawCsv()
+
+}
+
+async function drawCsv(){
+    for (let i = pause_location; i < signal_x_csv.length; i++){
+        const {zeros, poles} = filter_plane.getZerosPoles(radius)
+        const [a, b] = await get_differenceEquationCoefficients(zeros, poles)
+        
+
+            
+
+
+        setTimeout(() => {
+            live_input_y.push(signal_y_csv[i])
+            live_input_y.shift()
+            plotlyMultiLinePlot(live_input_container, [{x: live_input_x, y: live_input_y}])
+            
+            var ya = live_output_y.slice(-a.length+1);
+            ya = ya.reverse()
+            var xb = live_input_y.slice(-b.length+1);
+            xb = xb.reverse()
+            var new_value = 0
+            for (let i=0; i<ya.length; i++){
+                if (i == 0){
+                new_value += (xb[i]*b[i])
+                }
+                 else{
+                 new_value += (ya[i])*(-a[i])+(xb[i]*b[i])
+                }
+   
+    
+            }
+            live_output_y.push(new_value)
+            live_output_y.shift()
+            if (zeros.length == 0 && poles.length == 0){
+                plotlyMultiLinePlot(live_output_container, [{x: live_input_x, y: live_input_y}])
+            }
+            else{
+                plotlyMultiLinePlot(live_output_container, [{x: live_input_x, y: live_output_y}])
+            }
+           
+            pause_location = pause_location+1
+            
+
+        }, 1);
+        if (pause_bool == true){
+            break
+        }
+        
+    }
+}
+
+
+
+function* range(start, end) {
+    for (let i = start; i <= end; i++) {
+        yield i;
+    }
+}
