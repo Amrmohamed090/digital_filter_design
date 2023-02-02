@@ -4,7 +4,7 @@
 <head>
 
 	<meta charset="utf-8" />
-	<title>Index</title>
+	<title>allpass</title>
 	<script src="lib/danfo.min.js"></script>
 	<script src="lib/p5.min.js"></script>
 	<script src="lib/plotly-2.8.3.min.js"></script>
@@ -14,9 +14,42 @@
 </head>
 
 <body>
-	<a href="http://127.0.0.1:5501/client/index.html">
-        <button>design</button>
+	<a href="http://127.0.0.1:5500/client/index.html">
+        <button class="trans-btn">Design</button>
     </a>
+
+    <br />
+    <section id="all-pass">
+    	<div class="box" id="all-pass-unit-circle">
+    		<h2 id="all-pass-title" class="title">All Pass Filter Design</h2>
+    		<div id="all-pass-container">
+    			<div id="list1" class="dropdown-check-list" tabindex="100">
+    				<span class="anchor btn">All Pass Filter Coefficients</span>
+    				<ul id="listOfA" class="items">
+    					<li><input class="target1" type="checkbox" data-avalue="-0.9" />-0.9 </li>
+    					<li><input class="target1" type="checkbox" data-avalue="-0.495" />-0.495</li>
+    					<li><input class="target1" type="checkbox" data-avalue="0.0" />0.0</li>
+    					<li><input class="target1" type="checkbox" data-avalue="0.49499" />0.49499</li>
+    					<li><input class="target1" type="checkbox" data-avalue="0.99" />0.99</li>
+    				</ul>
+    			</div>
+    			<input range="0-9" min="-1" max="1" type="number" step="0.01" id="new-value" value="">
+    			<button id="new-all-pass-coef" class="btn">submit</button>
+    		</div>
+    	</div>
+    
+    	<div class="box" id="all-pass-response">
+    		<div id="all-pass-response-container">
+    			<h4 class="title" id="all-pass-response-title">All Pass Phase Response</h4>
+    			<div id="all-pass-phase-response" class="response-plotting"> </div>
+    		</div>
+    
+    		<div id="final-filter-response">
+    			<h4 id="final-filter-response-title" class="title">Final Phase Response</h4>
+    			<div id="final-filter-phase-response" class="response-plotting"> </div>
+    		</div>
+    	</div>
+    </section>
 	<script src="index.js"></script>
 	<script src="unitcricle.js"></script>
 	<script src="realtimeplotting.js"></script>

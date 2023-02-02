@@ -11,6 +11,7 @@ var pause_location = 0
 var pause_bool = false
 var pause_button = document.getElementById("Pause")
 var restart_button = document.getElementById("Restart")
+var stop_button = document.getElementById("Stop")
 var live_input_x = Array.from(Array(200).keys())
 var live_input_y = new Array(200).fill(0); //X
 var live_output_y = new Array(200).fill(0); //Y
@@ -23,7 +24,8 @@ pause_button.addEventListener("click", function (evt){
     pause_bool = !pause_bool
     if (pause_bool == false){
         drawCsv()
-    }
+        pause_button.innerHTML="Pause"
+    }else pause_button.innerHTML="Continue"
 })
 restart_button.addEventListener("click", function (evt){
     pause_bool = false
@@ -33,6 +35,18 @@ restart_button.addEventListener("click", function (evt){
     live_output_y = new Array(200).fill(0);
     drawCsv()
     
+})
+stop_button.addEventListener("click", function (){
+    pause_bool = true
+    pause_location = -1
+    live_input_x = Array.from(Array(200).keys())
+    live_input_y = new Array(200).fill(0)
+    live_output_y = new Array(200).fill(0);
+
+    input_arr_y= new Array(200).fill(0);
+    input_arr_x= Array.from(Array(200).keys())
+    output_arr_y=new Array(200).fill(0);
+
 })
 
 function plotlyMultiLinePlot(container, data){
@@ -179,12 +193,7 @@ async function drawCsv(){
             }
             live_output_y.push(new_value)
             live_output_y.shift()
-            if (zeros.length == 0 && poles.length == 0){
-                plotlyMultiLinePlot(live_output_container, [{x: live_input_x, y: live_input_y}])
-            }
-            else{
-                plotlyMultiLinePlot(live_output_container, [{x: live_input_x, y: live_output_y}])
-            }
+            plotlyMultiLinePlot(live_output_container, [{x: live_input_x, y: live_output_y}])
            
             pause_location = pause_location+1
             
