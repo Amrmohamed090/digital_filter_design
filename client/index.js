@@ -131,7 +131,7 @@ function changeMode(e){
     }
 }
 
-function openMode(evt, cityName) {
+function openMode(evt, selectedDiv) {
     // Declare all variables
     var i, tabcontent, tablinks;
   
@@ -148,6 +148,6 @@ function openMode(evt, cityName) {
     }
   
     // Show the current tab, and add an "active" class to the button that opened the tab
-    document.getElementById(cityName).style.display = "block";
+    document.getElementById(selectedDiv).style.display = "block";
     evt.currentTarget.className += " active";
   }

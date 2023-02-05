@@ -13,6 +13,7 @@ const modesMap = {
     'zero': Mode.ZERO,
     'pole': Mode.POLE,
 }
+let download_btn= document.getElementById("downloadFilter")
 
 const s = (p5_inst) => {
     p5_inst.setup = function () {
@@ -362,3 +363,63 @@ document
     .addEventListener('click', () => filter_plane.remove(curr_picked.index))
 
 let filterCanvas = new p5(s, 'circle-canvas')
+
+// added by adham
+
+const download = function (data) {
+ 
+    // Creating a Blob for having a csv file format
+    // and passing the data with type
+    const blob = new Blob([data], { type: 'text/csv' });
+ 
+    // Creating an object for downloading url
+    const url = window.URL.createObjectURL(blob)
+ 
+    // Creating an anchor(a) tag of HTML
+    const a = document.createElement('a')
+ 
+    // Passing the blob downloading url
+    a.setAttribute('href', url)
+ 
+    // Setting the anchor tag attribute for downloading
+    // and passing the download file name
+    a.setAttribute('download', 'filter.csv');
+ 
+    // Performing a download with click
+    a.click()
+}
+ 
+const csvMaker = function (data) {
+ 
+    // Empty array for storing the values
+    csvRows = [];
+ 
+    // Headers is basically a keys of an
+    // object which is id, name, and
+    // profession
+    const headers = Object.keys(data);
+ 
+    // As for making csv format, headers
+    // must be separated by comma and
+    // pushing it into array
+    csvRows.push(headers.join(','));
+ 
+    // Pushing Object values into array
+    // with comma separation
+    const values = Object.values(data);
+    csvRows.push(values)
+ 
+    // Returning the array joining with new line
+    return csvRows.join('\n')
+}
+
+download_btn.addEventListener("click", function (evt){
+    const {zeros, poles} = filter_plane.getZerosPoles(radius)
+    console.log(zeros)
+    const data ={
+        zeros, poles
+    }
+    const csvData = csvMaker(data)
+    // download(csvData)
+
+})

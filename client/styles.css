@@ -119,6 +119,32 @@ html{
     margin-bottom: 10px;
 }
 
+/* allPass filter gallery */
+.gallery-div h1{
+    margin: 10px 7px;
+
+}
+.gallery{
+    margin: 10px 30px;
+}
+.gallery img{
+    width: 230px;
+    padding: 5px;
+    filter: grayscale(100%);
+    transition: 0.5s;
+}
+/* img[title]:hover::after{
+    background-color: #212529;
+    color: aquamarine;
+    border-radius: 50%;
+} */
+.gallery img:hover{
+    filter: grayscale(0);
+    filter: saturate(100);
+    transform: scale(1.1);
+    /* cursor: pointer; */
+}
+
 /* #csv-submitter, #stop-filtering{
     padding: 8px;
     font-weight: 600;
