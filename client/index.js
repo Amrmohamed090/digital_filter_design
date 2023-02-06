@@ -9,6 +9,7 @@ const pole_mode_btn = document.getElementById("pole")
 const modes_btns = [zero_mode_btn, pole_mode_btn]
 
 document.getElementById("mouse-pad-mode").click();
+document.getElementById("design-mode").click();
 
 document.querySelector('#listOfA').addEventListener('input', updateAllPassCoeff)
 document.querySelector('#new-all-pass-coef').addEventListener('click', addNewA)
@@ -131,18 +132,18 @@ function changeMode(e){
     }
 }
 
-function openMode(evt, selectedDiv) {
+function openMode(evt, selectedDiv,content,links ) {
     // Declare all variables
     var i, tabcontent, tablinks;
   
     // Get all elements with class="tabcontent" and hide them
-    tabcontent = document.getElementsByClassName("tabcontent");
+    tabcontent = document.getElementsByClassName(content);
     for (i = 0; i < tabcontent.length; i++) {
       tabcontent[i].style.display = "none";
     }
   
     // Get all elements with class="tablinks" and remove the class "active"
-    tablinks = document.getElementsByClassName("tablinks");
+    tablinks = document.getElementsByClassName(links);
     for (i = 0; i < tablinks.length; i++) {
       tablinks[i].className = tablinks[i].className.replace(" active", "");
     }

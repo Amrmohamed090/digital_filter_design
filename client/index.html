@@ -14,57 +14,113 @@
 </head>
 
 <body>
-	<a href="http://127.0.0.1:5500/client/allpass.html">
-        <button class="trans-btn">allPass</button>
-    </a>
-	<section id="filter-design">
-		<div class="box" id="design-unit-circle">
-			<input class="btn" type="file" id="uploadFilter" accept=".csv" />
-			<h2 id="circle-title">Digital Filter Design</h2>
-			<div id="circle-canvas"></div>
-			<div id="circle-control">
-				<button id="zero" class="btn-cricle-control mode-control">Add Zeros</button>
-				<button id="pole" class="btn-cricle-control mode-control">Add Poles</button>
-				<button id="remove" class="btn-cricle-control">Remove</button>
-				<button id="remove-zeros" class="btn-cricle-control">Remove Zeros</button>
-				<button id="remove-poles" class="btn-cricle-control">Remove Poles</button>
-				<button id="remove-all" class="btn-cricle-control">Remove All</button>
+	<div class="tab">
+		<button class="tablinksMain" id="design-mode" onclick="openMode(event, 'design-div','tabcontentMain','tablinksMain')" >Design Filter</button>
+		<button class="tablinksMain" onclick="openMode(event, 'allpass-div','tabcontentMain','tablinksMain')">AllPass</button>
+	</div>
+	<div id="design-div" class="tabcontentMain">
+		<section id="filter-design">
+			<div class="box" id="design-unit-circle">
+				<input class="btn" type="file" id="uploadFilter" accept=".csv" />
+				<h2 id="circle-title">Digital Filter Design</h2>
+				<div id="circle-canvas"></div>
+				<div id="circle-control">
+					<button id="zero" class="btn-cricle-control mode-control">Add Zeros</button>
+					<button id="pole" class="btn-cricle-control mode-control">Add Poles</button>
+					<button id="remove" class="btn-cricle-control">Remove</button>
+					<button id="remove-zeros" class="btn-cricle-control">Remove Zeros</button>
+					<button id="remove-poles" class="btn-cricle-control">Remove Poles</button>
+					<button id="remove-all" class="btn-cricle-control">Remove All</button>
+				</div>
+				<button id="downloadFilter">Download</button>
+				
 			</div>
-			<button id="downloadFilter">Download</button>
-            
-		</div>
-		<div class="box" id="filter-response">
-			<h4 class="freq-response-title title">Magnitude Response</h4>
-			<div id="filter-mag-response" class="response-plotting"> </div>
-			<h4 class="freq-response-title title">Phase Response</h4>
-			<div id="filter-phase-response" class="response-plotting"> </div>
+			<div class="box" id="filter-response">
+				<h4 class="freq-response-title title">Magnitude Response</h4>
+				<div id="filter-mag-response" class="response-plotting"> </div>
+				<h4 class="freq-response-title title">Phase Response</h4>
+				<div id="filter-phase-response" class="response-plotting"> </div>
+	
+			</div>
+			<div class="box" id="pad">
+				<div class="tab">
+					<button class="tablinks" id="mouse-pad-mode" onclick="openMode(event, 'mousepad-div','tabcontent','tablinks')" >Mouse Pad</button>
+					<button class="tablinks" onclick="openMode(event, 'csv-div','tabcontent','tablinks')">CSV</button>
+				</div>
+				<div id="mousepad-div" class="tabcontent">
+					<canvas id="mousepad"></canvas>
+				</div>
+				  
+				<div id="csv-div" class="tabcontent">
+					<input class="btn" type="file" id="csvFile" accept=".csv" />
+					<br>
+					<button class="btn" value="Pause" id="Pause">Pause</button>
+					<button class="btn" value="Restart" id="Restart">Restart</button>
+					<button class="btn" value="Stop" id="Stop">Stop</button>
+	
+				</div>
+				<div>
+				  <h4 class="freq-response-title title">Input Signal</h4>
+					<div  id="live-input" class="signal-plotting"></div>
+					<h4 class="freq-response-title title">Output Signal</h4>
+					<div  id="live-output"class="signal-plotting"></div>   
+				</div>
+			</div>
+		</section>
+	</div>
+	  
+	<div id="allpass-div" class="tabcontentMain">
+		<section id="all-pass">
+			<div class="box" id="all-pass-unit-circle">
+				<h2 id="all-pass-title" class="title">All Pass Filter Design</h2>
+				<div id="all-pass-container">
+					<div id="list1" class="dropdown-check-list" tabindex="100">
+						<span class="anchor btn">All Pass Filter Coefficients</span>
+						<ul id="listOfA" class="items">
+							<li><input class="target1" type="checkbox" data-avalue="-0.9" />-0.9 </li>
+							<li><input class="target1" type="checkbox" data-avalue="-0.495" />-0.495</li>
+							<li><input class="target1" type="checkbox" data-avalue="0.0" />0.0</li>
+							<li><input class="target1" type="checkbox" data-avalue="0.49499" />0.49499</li>
+							<li><input class="target1" type="checkbox" data-avalue="0.99" />0.99</li>
+						</ul>
+					</div>
+					<input range="0-9" min="-1" max="1" type="number" step="0.01" id="new-value" value="">
+					<button id="new-all-pass-coef" class="btn">submit</button>
+				</div>
+			</div>
+		
+			<div class="box" id="all-pass-response">
+				<div id="all-pass-response-container">
+					<h4 class="title" id="all-pass-response-title">All Pass Phase Response</h4>
+					<div id="all-pass-phase-response" class="response-plotting"> </div>
+				</div>
+		
+				<div id="final-filter-response">
+					<h4 id="final-filter-response-title" class="title">Final Phase Response</h4>
+					<div id="final-filter-phase-response" class="response-plotting"> </div>
+				</div>
+			</div>
+		</section>
 
+		<div class="gallery-div">
+			<h1>AllPass Filters</h1>
+			<div class="gallery">
+				<img src="images/allpass filter/-0.9.png" title="a=-0.9">
+				<img src="images/allpass filter/-0.7.png" title="a=-0.7">
+				<img src="images/allpass filter/-0.5.png" title="a=-0.5">
+				<img src="images/allpass filter/-0.3.png" title="a=-0.3">
+				<img src="images/allpass filter/-0.1.png" title="a=-0.1">
+				<img src="images/allpass filter/0.1.png" title="a=0.9">
+				<img src="images/allpass filter/0.3.png" title="a=0.7">
+				<img src="images/allpass filter/0.5.png" title="a=0.5">
+				<img src="images/allpass filter/0.7.png" title="a=0.3">
+				<img src="images/allpass filter/0.9.png" title="a=0.1">
+			</div>
 		</div>
-        <div class="box" id="pad">
-			<div class="tab">
-				<button class="tablinks" id="mouse-pad-mode" onclick="openMode(event, 'mousepad-div')" >Mouse Pad</button>
-				<button class="tablinks" onclick="openMode(event, 'csv-div')">CSV</button>
-			</div>
-			<div id="mousepad-div" class="tabcontent">
-				<canvas id="mousepad"></canvas>
-			</div>
-			  
-			<div id="csv-div" class="tabcontent">
-				<input class="btn" type="file" id="csvFile" accept=".csv" />
-				<br>
-				<button class="btn" value="Pause" id="Pause">Pause</button>
-				<button class="btn" value="Restart" id="Restart">Restart</button>
-				<button class="btn" value="Stop" id="Stop">Stop</button>
 
-			</div>
-			<div>
-			  <h4 class="freq-response-title title">Input Signal</h4>
-            	<div  id="live-input" class="signal-plotting"></div>
-				<h4 class="freq-response-title title">Output Signal</h4>
-            	<div  id="live-output"class="signal-plotting"></div>   
-		    </div>
-		</div>
-	</section>
+
+	</div>
+
 
 
            
