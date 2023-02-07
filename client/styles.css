@@ -120,16 +120,25 @@ html{
 }
 
 /* allPass filter gallery */
-.gallery-div h1{
-    margin: 10px 7px;
+.gallery-box{
+    flex-direction: column;
+    justify-content: center;
+    background-color: #2a2e32;
+    border-radius: 8px;
+    margin: 5px;
+    width: 30%;
+}
+.gallery-box h2{
+    text-align: center;
 
 }
 .gallery{
-    margin: 10px 30px;
+    text-align: center;
+    max-height: 600px;
+    overflow-y: auto;
 }
 .gallery img{
     width: 230px;
-    padding: 5px;
     filter: grayscale(100%);
     transition: 0.5s;
 }

@@ -1,4 +1,3 @@
-/*start b3bsa*/
 live_input_container = document.getElementById("live-input")
 live_output_container = document.getElementById("live-output")
 const submit_btn = document.getElementById('csv-submitter')
@@ -115,7 +114,7 @@ function getMousePos(canvas, evt) {
         y: evt.clientY - rect.top
     };
 }
-/*end b3bsa*/
+
 function equateLength(a, b){
     max_length = Math.max(a.length, b.length)
     for(let i = 0; i < max_length; i++){
