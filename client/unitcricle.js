@@ -343,19 +343,11 @@ const s = (p5_inst) => {
             x=150+(140*x)
             y=150+(140*y)
             let p = p5_inst.createVector(x,y)
-            if (Math.abs(unit_circle_center.y - p.y) > 5){
-                this.#addConjugateZero(p)
-                return
-            }
-            let center = p5_inst.createVector(p.x, unit_circle_center.y)
             if(mode=="zeros"){
-                let zero = new Zero(center, unit_circle_center)
-                this.items.push({ point: zero, conjugate: null })
-            }else if (mode=="poles"){
-                let pole = new Pole(center, unit_circle_center)
-                this.items.push({ point: pole, conjugate: null })
-            }
-
+                this.#addZero(p)
+            }else if(mode=="poles"){
+                this.#addPole(p)
+            }         
         }
     }
 
