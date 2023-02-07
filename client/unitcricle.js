@@ -14,6 +14,7 @@ const modesMap = {
     'pole': Mode.POLE,
 }
 let download_btn= document.getElementById("downloadFilter")
+let uploadFilter= document.getElementById('uploadFilter')
 
 const s = (p5_inst) => {
     p5_inst.setup = function () {
@@ -153,7 +154,7 @@ const s = (p5_inst) => {
     }
 
     function arrow(base, vec, myColor) {
-        let arrowSize = 7
+        let arrowSize = 1
         p5_inst.push()
         p5_inst.stroke(myColor)
         p5_inst.strokeWeight(1.5)
@@ -338,6 +339,24 @@ const s = (p5_inst) => {
             let conjugate_zero = zero.getConjugate()
             this.items.push({ point: zero, conjugate: conjugate_zero })
         }
+        uploadFilter(x,y,mode){
+            x=150+(140*x)
+            y=150+(140*y)
+            let p = p5_inst.createVector(x,y)
+            if (Math.abs(unit_circle_center.y - p.y) > 5){
+                this.#addConjugateZero(p)
+                return
+            }
+            let center = p5_inst.createVector(p.x, unit_circle_center.y)
+            if(mode=="zeros"){
+                let zero = new Zero(center, unit_circle_center)
+                this.items.push({ point: zero, conjugate: null })
+            }else if (mode=="poles"){
+                let pole = new Pole(center, unit_circle_center)
+                this.items.push({ point: pole, conjugate: null })
+            }
+
+        }
     }
 
 }
@@ -365,61 +384,52 @@ document
 let filterCanvas = new p5(s, 'circle-canvas')
 
 // added by adham
-
-const download = function (data) {
- 
-    // Creating a Blob for having a csv file format
-    // and passing the data with type
-    const blob = new Blob([data], { type: 'text/csv' });
- 
-    // Creating an object for downloading url
-    const url = window.URL.createObjectURL(blob)
- 
-    // Creating an anchor(a) tag of HTML
-    const a = document.createElement('a')
- 
-    // Passing the blob downloading url
-    a.setAttribute('href', url)
- 
-    // Setting the anchor tag attribute for downloading
-    // and passing the download file name
-    a.setAttribute('download', 'filter.csv');
- 
-    // Performing a download with click
-    a.click()
-}
- 
-const csvMaker = function (data) {
- 
-    // Empty array for storing the values
-    csvRows = [];
- 
-    // Headers is basically a keys of an
-    // object which is id, name, and
-    // profession
-    const headers = Object.keys(data);
- 
-    // As for making csv format, headers
-    // must be separated by comma and
-    // pushing it into array
-    csvRows.push(headers.join(','));
- 
-    // Pushing Object values into array
-    // with comma separation
-    const values = Object.values(data);
-    csvRows.push(values)
- 
-    // Returning the array joining with new line
-    return csvRows.join('\n')
-}
+function downloadObjectAsJson(exportObj, exportName){
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj));
+    var downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href",     dataStr);
+    downloadAnchorNode.setAttribute("download", exportName + ".json");
+    document.body.appendChild(downloadAnchorNode); // required for firefox
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+  }
 
 download_btn.addEventListener("click", function (evt){
     const {zeros, poles} = filter_plane.getZerosPoles(radius)
-    console.log(zeros)
     const data ={
         zeros, poles
     }
-    const csvData = csvMaker(data)
-    // download(csvData)
-
+    downloadObjectAsJson(data, 'filter')
 })
+
+// upload filter
+uploadFilter.onchange = function(evt) {
+    try {
+        let files = evt.target.files;
+        if (!files.length) {
+            // alert('No file selected!')
+            // return;
+            return null
+        }
+        let file = files[0];
+        let reader = new FileReader();
+        const self = this;
+        reader.onload = (event) => {
+            var zerosPoles = JSON.parse(event.target.result)
+            filter_plane.removeAll() 
+        
+            // filter_plane.addZero(p1)
+            for (let i = 0; i < (zerosPoles.zeros.length); i++) {
+                filter_plane.uploadFilter(zerosPoles.zeros[i][0],zerosPoles.zeros[i][1],"zeros")
+            }
+            for (let i = 0; i < (zerosPoles.poles.length); i++) {
+                filter_plane.uploadFilter(zerosPoles.poles[i][0],zerosPoles.poles[i][1],"poles")
+            }
+            // console.log('FILE CONTENT', event.target.result)
+            // console.log(zerosPoles);
+        };
+        reader.readAsText(file);
+    } catch (err) {
+        console.error(err);
+    }
+}
