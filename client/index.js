@@ -29,16 +29,13 @@ async function postData(url = '', data = {}) {
     return response.json()
 }
 
-
+//design and draw frequency responce mag
 async function updateFilterDesign(data) {
     data.gain = 1
     let { w, angels, magnitude } = await postData(`${API}/getFilter`, data)
     plotlyMultiLinePlot(filterDesignMagnitude, [
         { x: w, y: magnitude, line: { color: '#febc2c' } },
     ])
-    // plotlyMultiLinePlot(filterDesignPhase, [
-    //     { x: w, y: angels, line: { color: '#fd413c' } },
-    // ])
 }
 
 checkList.getElementsByClassName('anchor')[0].onclick = function () {
@@ -47,7 +44,7 @@ checkList.getElementsByClassName('anchor')[0].onclick = function () {
     else
         checkList.classList.add('visible');
 }
-
+// add all pass filter coef in drop list 
 function addNewA() {
     const old_li = document.querySelector('#listOfA').children
 
@@ -76,22 +73,8 @@ function addNewA() {
 
         new_li[i].children[0].checked = old_list[i]
     }
-    /*
-
-    list_of_a = []
-    for (let i =0; i<new_li.length;i++){
-    
-        
-        if(new_li[i].children[0].checked == true){
-            list_of_a.push(parseFloat(new_li[i].children[0].value))
-        }
-
-    }
-    */
-
-
 }
-
+// post request zeros and poles and angles all pass coef
 async function updateFilterPhase(allPassCoeff){
     const { zeros, poles } = filter_plane.getZerosPoles(radius)
     const { angels: allPassAngels } = await postData(
@@ -110,13 +93,13 @@ async function updateFilterPhase(allPassCoeff){
     )
     updateFilterPlotting(w, allPassAngels, finalFilterPhase)
 }
-
+//update draw plots 
 function updateFilterPlotting(w, allPassAngels, finalFilterPhase){
     plotlyMultiLinePlot(allPassPhase, [{x: w, y: allPassAngels}])
     plotlyMultiLinePlot(finalPhase, [{x: w, y: finalFilterPhase}])
     plotlyMultiLinePlot(filterDesignPhase, [{x: w, y: finalFilterPhase}])
 }
-
+//function to set plotly 
 function plotlyMultiLinePlot(container, data){
     Plotly.newPlot(
         container,
@@ -143,7 +126,7 @@ function arrayRemove(arr, value) {
         return ele != value
     })
 }
-
+// update all pass coef
 function updateAllPassCoeff(){
     let allPassCoeff = []
     document.querySelectorAll('.target1').forEach(item => {
@@ -153,13 +136,8 @@ function updateAllPassCoeff(){
     })
     updateFilterPhase(allPassCoeff)
 }
-/*
-function clearCheckBoxes(){
-    document.querySelectorAll('.target1').forEach(item => {
-        item.checked = false;
-    })
-}*/
 
+//change mode between zeros and poles 
 function changeMode(e){
     unit_circle_mode = modesMap[e.target.id]
     for(btn of modes_btns){
@@ -167,6 +145,7 @@ function changeMode(e){
     }
 }
 
+//change tabs between mouse pad and csv , between design filter and all pass filter
 function openMode(evt, selectedDiv,content,links ) {
     // Declare all variables
     var i, tabcontent, tablinks;
@@ -190,6 +169,7 @@ function openMode(evt, selectedDiv,content,links ) {
 
 
   //################################################################################################
+// gallery all pass filter 
 const gallery_div = document.getElementById('gallery').children
 var gallery = []
 var gallery_status = []
@@ -204,6 +184,7 @@ $("#gallery > img").click(function () {
 });
 
 
+// add filters from images
 function addA(newA) {
     const old_li = document.querySelector('#listOfA').children
 
@@ -226,19 +207,10 @@ function addA(newA) {
 
         new_li[i].children[0].checked = old_list[i]
     }
-    /*
-    list_of_a = []
-    for (let i =0; i<new_li.length;i++){
-    
-        
-        if(new_li[i].children[0].checked == true){
-            list_of_a.push(parseFloat(new_li[i].children[0].value))
-        }
 
-    }
-*/
 }
 
+// return the coef of all pass filters
 function get_a_list(){
     
     var l = document.querySelector('#listOfA').children
@@ -252,6 +224,7 @@ function get_a_list(){
     return list_of_a
 }
 
+// all pass filters clear button
 all_pass_clear_btn.addEventListener('click', function(e){
     console.log("c")
     document.getElementById('list1').innerHTML = '<span class="anchor btn">All Pass Filter Coefficients</span><ul id="listOfA" class="items"></ul>'

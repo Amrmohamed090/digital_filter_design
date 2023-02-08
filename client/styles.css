@@ -184,6 +184,7 @@ html{
     flex-direction: column;
     flex-wrap: nowrap;
     gap: 10px;
+    max-width: 55vh;
 }
 
 /* plot graphs */

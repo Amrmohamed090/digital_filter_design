@@ -16,9 +16,8 @@ var live_input_y = new Array(200).fill(0); //X
 var live_output_y = new Array(200).fill(0); //Y
 
 
-//=> [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-
+// pause button 
 pause_button.addEventListener("click", function (evt){
     pause_bool = !pause_bool
     if (pause_bool == false){
@@ -26,6 +25,7 @@ pause_button.addEventListener("click", function (evt){
         pause_button.innerHTML="Pause"
     }else pause_button.innerHTML="Continue"
 })
+// restart button
 restart_button.addEventListener("click", function (evt){
     pause_bool = false
     pause_location = 0
@@ -47,7 +47,7 @@ stop_button.addEventListener("click", function (){
     output_arr_y=new Array(200).fill(0);
 
 })
-
+// define plotly
 function plotlyMultiLinePlot(container, data){
     return Plotly.newPlot(
         container,
@@ -69,6 +69,7 @@ function plotlyMultiLinePlot(container, data){
     )
 }
 
+// mouse pad
 var canvas = document.getElementById("mousepad");
 canvas.addEventListener("mousemove", async function (evt) {
     var mousePos = getMousePos(canvas, evt);
@@ -78,12 +79,12 @@ canvas.addEventListener("mousemove", async function (evt) {
         input_arr_y.shift()
  
     }
-    
+    // draw input and output of mouse pad
     plotlyMultiLinePlot(live_input_container, [{x: input_arr_x, y: input_arr_y}])
     var {zeros, poles} = filter_plane.getZerosPoles(radius)
     //add all pass
     var all_pass_a = get_a_list()
-    console.log(all_pass_a)
+    // console.log(all_pass_a)
     for (let i =0;i<all_pass_a.length;i++){
         zeros.push([1/all_pass_a[i],0])
         poles.push([all_pass_a[i],0])
@@ -101,7 +102,7 @@ canvas.addEventListener("mousemove", async function (evt) {
     }
     output_arr_y.push(new_value)
     output_arr_y.shift()
-  
+
 
     plotlyMultiLinePlot(live_output_container, [{x: input_arr_x, y: output_arr_y}])
 });
@@ -114,7 +115,7 @@ function getMousePos(canvas, evt) {
         y: evt.clientY - rect.top
     };
 }
-
+// get length of a coef of y and b coef of x
 function equateLength(a, b){
     max_length = Math.max(a.length, b.length)
     for(let i = 0; i < max_length; i++){
@@ -136,6 +137,8 @@ async function get_differenceEquationCoefficients(zeros, poles) {
 
 
 /////////////////
+
+// to convert matrix of data frame to column x,y
 function getCol(matrix, col) {
     var column = []
     for (var i = 0; i < matrix.length; i++) {
@@ -143,6 +146,7 @@ function getCol(matrix, col) {
     }
     return column
 }
+// initiate csv files
 csvFile.addEventListener('change', () => {
     pause_bool = false
     readData()
@@ -163,7 +167,12 @@ async function readData() {
 
 async function drawCsv(){
     for (let i = pause_location; i < signal_x_csv.length; i++){
-        const {zeros, poles} = filter_plane.getZerosPoles(radius)
+        var {zeros, poles} = filter_plane.getZerosPoles(radius)
+        var all_pass_a = get_a_list()
+        for (let i =0;i<all_pass_a.length;i++){
+            zeros.push([1/all_pass_a[i],0])
+            poles.push([all_pass_a[i],0])
+        }
         const [a, b] = await get_differenceEquationCoefficients(zeros, poles) 
         a[0] = 0
      
@@ -195,10 +204,3 @@ async function drawCsv(){
     }
 }
 
-
-
-function* range(start, end) {
-    for (let i = start; i <= end; i++) {
-        yield i;
-    }
-}

@@ -16,6 +16,7 @@ const modesMap = {
 let download_btn= document.getElementById("downloadFilter")
 let uploadFilter= document.getElementById('uploadFilter')
 
+// initiate demotions of unicycle and canvas from lib
 const s = (p5_inst) => {
     p5_inst.setup = function () {
         p5.disableFriendlyErrors = true;
@@ -38,6 +39,7 @@ const s = (p5_inst) => {
         drawUnitCricle()
         drawPoints()
     }
+    // create point vector of mouseLocation based on circle canvas
     p5_inst.mousePressed = function () {
         let p = p5_inst.createVector(p5_inst.mouseX, p5_inst.mouseY)
         last_press_position = p
@@ -152,7 +154,8 @@ const s = (p5_inst) => {
         }
         p5_inst.pop()
     }
-
+    
+    // draw x&y arrows
     function arrow(base, vec, myColor) {
         let arrowSize = 1
         p5_inst.push()
@@ -240,7 +243,6 @@ const s = (p5_inst) => {
             this.items = []
         }
 
-        //TODO: fix release bug
         therePoint(p, error = 5) {
             for (let i = 0; i < this.items.length; i++) {
                 let item = this.items[i]
@@ -375,7 +377,7 @@ document
 
 let filterCanvas = new p5(s, 'circle-canvas')
 
-// added by adham
+// download filter as json file
 function downloadObjectAsJson(exportObj, exportName){
     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj));
     var downloadAnchorNode = document.createElement('a');
