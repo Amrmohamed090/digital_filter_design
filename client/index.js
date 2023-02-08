@@ -36,9 +36,9 @@ async function updateFilterDesign(data) {
     plotlyMultiLinePlot(filterDesignMagnitude, [
         { x: w, y: magnitude, line: { color: '#febc2c' } },
     ])
-    plotlyMultiLinePlot(filterDesignPhase, [
-        { x: w, y: angels, line: { color: '#fd413c' } },
-    ])
+    // plotlyMultiLinePlot(filterDesignPhase, [
+    //     { x: w, y: angels, line: { color: '#fd413c' } },
+    // ])
 }
 
 checkList.getElementsByClassName('anchor')[0].onclick = function () {
@@ -182,7 +182,7 @@ function openMode(evt, selectedDiv,content,links ) {
     for (i = 0; i < tablinks.length; i++) {
       tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
-  
+
     // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(selectedDiv).style.display = "block";
     evt.currentTarget.className += " active";

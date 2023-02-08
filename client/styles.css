@@ -324,3 +324,7 @@ html{
     padding: 10px;
     min-height: 25vh;
   }
+#listOfA{
+    overflow-y: auto;
+    max-height: 70px;
+}
