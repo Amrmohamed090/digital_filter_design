@@ -151,7 +151,7 @@ html{
     filter: grayscale(0);
     filter: saturate(100);
     transform: scale(1.1);
-    /* cursor: pointer; */
+    cursor: pointer; 
 }
 
 /* #csv-submitter, #stop-filtering{

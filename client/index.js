@@ -5,6 +5,7 @@ const finalPhase = document.getElementById('final-filter-phase-response');
 const checkList = document.getElementById('list1');
 const zero_mode_btn = document.getElementById("zero")
 const pole_mode_btn = document.getElementById("pole")
+const all_pass_clear_btn =  document.getElementById("clear_allpass")
 const modes_btns = [zero_mode_btn, pole_mode_btn]
 var list_of_a = []
 checkList.classList.add('visible')
@@ -59,6 +60,10 @@ function addNewA() {
    
     if(newA > 1 || newA < -1){
         alert(`invalid ${newA} as Filter Coefficient`)
+        return
+    }
+    if (!newA){
+        alert(`please enter a value for a`)
         return
     }
     document.getElementById(
@@ -246,3 +251,9 @@ function get_a_list(){
     }
     return list_of_a
 }
+
+all_pass_clear_btn.addEventListener('click', function(e){
+    console.log("c")
+    document.getElementById('list1').innerHTML = '<span class="anchor btn">All Pass Filter Coefficients</span><ul id="listOfA" class="items"></ul>'
+})
+
