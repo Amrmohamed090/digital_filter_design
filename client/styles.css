@@ -213,6 +213,18 @@ html{
     cursor: pointer;
 }
 
+#uploadFilter{
+    margin-bottom: 50px;
+    color: #ededee;
+}
+#downloadFilter{
+    margin: 10px;
+    cursor: pointer;
+    background-color: #cccccc;
+    border-radius: 4px;
+    font-size: small;
+    font-weight: 600;
+}
 /* pad */
 #mousepad{
     background-color: #cccccc;
