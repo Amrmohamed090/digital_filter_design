@@ -80,24 +80,24 @@ canvas.addEventListener("mousemove", async function (evt) {
     }
     
     plotlyMultiLinePlot(live_input_container, [{x: input_arr_x, y: input_arr_y}])
-    const {zeros, poles} = filter_plane.getZerosPoles(radius)
+    var {zeros, poles} = filter_plane.getZerosPoles(radius)
+    //add all pass
+    var all_pass_a = get_a_list()
+    console.log(all_pass_a)
+    for (let i =0;i<all_pass_a.length;i++){
+        zeros.push([1/all_pass_a[i],0])
+        poles.push([all_pass_a[i],0])
+    }
     const [a, b] = await get_differenceEquationCoefficients(zeros, poles)
-    
-    var ya = output_arr_y.slice(-a.length+1);
+    a[0] = 0
+    var ya = output_arr_y.slice(-a.length);
     ya = ya.reverse()
-    var xb = input_arr_y.slice(-b.length+1);
+    var xb = input_arr_y.slice(-b.length);
     xb = xb.reverse()
     //summision
     var new_value = 0
-    for (let i=0; i<ya.length; i++){
-        if (i == 0){
-            new_value += (xb[i]*b[i])
-        }
-        else{
-            new_value += (ya[i])*(-a[i])+(xb[i]*b[i])
-        }
-   
-    
+    for (let i=0; i<a.length; i++){
+        new_value += (ya[i])*(-a[i])+(xb[i]*b[i])
     }
     output_arr_y.push(new_value)
     output_arr_y.shift()
@@ -164,31 +164,21 @@ async function readData() {
 async function drawCsv(){
     for (let i = pause_location; i < signal_x_csv.length; i++){
         const {zeros, poles} = filter_plane.getZerosPoles(radius)
-        const [a, b] = await get_differenceEquationCoefficients(zeros, poles)
-        
-
-            
-
-
+        const [a, b] = await get_differenceEquationCoefficients(zeros, poles) 
+        a[0] = 0
+     
         setTimeout(() => {
             live_input_y.push(signal_y_csv[i])
             live_input_y.shift()
             plotlyMultiLinePlot(live_input_container, [{x: live_input_x, y: live_input_y}])
             
-            var ya = live_output_y.slice(-a.length+1);
+            var ya = live_output_y.slice(-a.length);
             ya = ya.reverse()
-            var xb = live_input_y.slice(-b.length+1);
+            var xb = live_input_y.slice(-b.length);
             xb = xb.reverse()
             var new_value = 0
-            for (let i=0; i<ya.length; i++){
-                if (i == 0){
-                new_value += (xb[i]*b[i])
-                }
-                 else{
-                 new_value += (ya[i])*(-a[i])+(xb[i]*b[i])
-                }
-   
-    
+            for (let i=0; i<a.length; i++){ 
+            new_value += (ya[i])*(-a[i])+(xb[i]*b[i])
             }
             live_output_y.push(new_value)
             live_output_y.shift()

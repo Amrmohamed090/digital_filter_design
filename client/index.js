@@ -5,16 +5,17 @@ const finalPhase = document.getElementById('final-filter-phase-response');
 const checkList = document.getElementById('list1');
 const zero_mode_btn = document.getElementById("zero")
 const pole_mode_btn = document.getElementById("pole")
-
 const modes_btns = [zero_mode_btn, pole_mode_btn]
+var list_of_a = []
+checkList.classList.add('visible')
 
 document.getElementById("mouse-pad-mode").click();
 document.getElementById("design-mode").click();
 
-document.querySelector('#listOfA').addEventListener('input', updateAllPassCoeff)
+document.querySelector('#listOfA').addEventListener('change', updateAllPassCoeff)
 document.querySelector('#new-all-pass-coef').addEventListener('click', addNewA)
 
-clearCheckBoxes()
+
 async function postData(url = '', data = {}) {
     const response = await fetch(url, {
         method: 'POST',
@@ -47,15 +48,43 @@ checkList.getElementsByClassName('anchor')[0].onclick = function () {
 }
 
 function addNewA() {
+    const old_li = document.querySelector('#listOfA').children
+
+    var old_list = []
+    for (let i =0; i<old_li.length;i++){
+    
+        old_list.push(old_li[i].children[0].checked)
+    }
     var newA = document.getElementById('new-value').value
+   
     if(newA > 1 || newA < -1){
         alert(`invalid ${newA} as Filter Coefficient`)
         return
     }
     document.getElementById(
         'listOfA'
-    ).innerHTML += `<li><input class = "target1" type="checkbox" data-avalue="${newA}"/>${newA}</li>`
-    clearCheckBoxes()
+    ).innerHTML += `<li><input class = "target1" type="checkbox" data-avalue="${newA}" value="${newA}" checked/>${newA}</li>`
+
+    const new_li = document.querySelector('#listOfA').children
+
+    for (let i =0; i<old_li.length;i++){
+
+        new_li[i].children[0].checked = old_list[i]
+    }
+    /*
+
+    list_of_a = []
+    for (let i =0; i<new_li.length;i++){
+    
+        
+        if(new_li[i].children[0].checked == true){
+            list_of_a.push(parseFloat(new_li[i].children[0].value))
+        }
+
+    }
+    */
+
+
 }
 
 async function updateFilterPhase(allPassCoeff){
@@ -80,6 +109,7 @@ async function updateFilterPhase(allPassCoeff){
 function updateFilterPlotting(w, allPassAngels, finalFilterPhase){
     plotlyMultiLinePlot(allPassPhase, [{x: w, y: allPassAngels}])
     plotlyMultiLinePlot(finalPhase, [{x: w, y: finalFilterPhase}])
+    plotlyMultiLinePlot(filterDesignPhase, [{x: w, y: finalFilterPhase}])
 }
 
 function plotlyMultiLinePlot(container, data){
@@ -118,12 +148,12 @@ function updateAllPassCoeff(){
     })
     updateFilterPhase(allPassCoeff)
 }
-
+/*
 function clearCheckBoxes(){
     document.querySelectorAll('.target1').forEach(item => {
         item.checked = false;
     })
-}
+}*/
 
 function changeMode(e){
     unit_circle_mode = modesMap[e.target.id]
@@ -152,3 +182,67 @@ function openMode(evt, selectedDiv,content,links ) {
     document.getElementById(selectedDiv).style.display = "block";
     evt.currentTarget.className += " active";
   }
+
+
+  //################################################################################################
+const gallery_div = document.getElementById('gallery').children
+var gallery = []
+var gallery_status = []
+for (let i=0; i<gallery.length; i++){
+    gallery.push(gallery_div[i].name)
+    gallery_status.push(false)
+}
+
+
+$("#gallery > img").click(function () {
+    addA(this.name)
+});
+
+
+function addA(newA) {
+    const old_li = document.querySelector('#listOfA').children
+
+    var old_list = []
+    for (let i =0; i<old_li.length;i++){
+ 
+        old_list.push(old_li[i].children[0].checked)
+    }
+    if(newA > 1 || newA < -1){
+        alert(`invalid ${newA} as Filter Coefficient`)
+        return
+    }
+    document.getElementById(
+        'listOfA'
+    ).innerHTML += `<li><input class = "target1" type="checkbox" data-avalue="${newA}" value="${newA}" checked>${newA}</li>`
+    
+    const new_li = document.querySelector('#listOfA').children
+
+    for (let i =0; i<old_li.length;i++){
+
+        new_li[i].children[0].checked = old_list[i]
+    }
+    /*
+    list_of_a = []
+    for (let i =0; i<new_li.length;i++){
+    
+        
+        if(new_li[i].children[0].checked == true){
+            list_of_a.push(parseFloat(new_li[i].children[0].value))
+        }
+
+    }
+*/
+}
+
+function get_a_list(){
+    
+    var l = document.querySelector('#listOfA').children
+    var list_of_a = []
+    for (let i = 0; i<l.length;i++){
+      
+        if(l[i].children[0].checked){
+        list_of_a.push(parseFloat(l[i].children[0].value))}
+
+    }
+    return list_of_a
+}

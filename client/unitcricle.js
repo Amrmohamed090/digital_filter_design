@@ -315,7 +315,7 @@ const s = (p5_inst) => {
             let zero = new Zero(center, unit_circle_center)
             this.items.push({ point: zero, conjugate: null })
         }
-
+        
         #addPole(p) {
             if (Math.abs(unit_circle_center.y - p.y) > 5){
                 this.#addConjugatePole(p)
